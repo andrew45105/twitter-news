@@ -1,0 +1,25 @@
+services:
+
+    # Services
+    app.service.twitter_parser:
+        class: AppBundle\Service\TwitterParser
+        arguments:
+            - "%twitter_credentials%"
+            - "%api_urls%"
+            - "%target_account%"
+            - "%tweets_max_count%"
+
+    app.service.common_utils:
+        class: AppBundle\Service\CommonUtils
+
+    # Services Entity
+    app.service.entity.user:
+        class: AppBundle\Service\Entity\UserService
+        calls:
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]
+            - [setEncoderFactory, ['@security.encoder_factory']]
+
+    app.service.entity.tweet:
+        class: AppBundle\Service\Entity\TweetService
+        calls:
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]

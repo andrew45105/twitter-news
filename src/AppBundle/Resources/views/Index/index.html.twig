@@ -1,0 +1,56 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block tags %}
+    <h4>Popular tags</h4>
+    <ol class="list-unstyled">
+        {% for tag in tags %}
+            <li><a href="/{{ tag.title }}">{{ tag.title }}</a></li>
+        {% endfor %}
+    </ol>
+{% endblock %}
+
+{% block search %}
+    <div class="row search-tweets">
+        <div class="col-sm-8">
+            {{ form_start(form, {'attr': {'class': 'search-form'} }) }}
+                {{ form_widget(form.text, {'attr': {
+                    'placeholder': 'search (min 3 characters)...',
+                    'pattern': '.{3,}'
+                } }) }}
+                {{ form_widget(form.btn, {'attr': {'placeholder': 'search...'} }) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block nav %}
+    {% if pagesCount > 1 %}
+        <div class="col-sm-8 ">
+            <ul class="pagination pagination-sm">
+                <li {{ page == 1 ? 'class="disabled"' }}>
+                    <a href="{{ path('index', {p: page-1 < 1 ? 1 : page-1}) }}">«</a>
+                </li>
+
+                {% for i in 1..pagesCount %}
+                    <li {{ page == i ? 'class="active"' }}>
+                        <a href="{{ path('index', {p: i}) }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+
+                <li {{ page == pagesCount ? 'class="disabled"' }}>
+                    <a href="{{ path('index', {p: page+1 <= pagesCount ? page+1 : page}) }}">»</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var searchText = '{{ searchText }}';
+    </script>
+    <script src="{{ asset('app/js/main.js') }}"></script>
+{% endblock %}
