@@ -8,6 +8,7 @@ twitter-news
 * `bower install` (установка зависимостей фронтенда - jq, bootstrap)
 * `doctrine:database:create`
 * `doctrine:schema:update --force`
+* прописать в parameters.yml данные по twitter_credentials
 * `app:user-create` (создание пользователя, логин и пароль - project_user в parameters.yml)
 * `app:tweets-parse` (начальный парсинг твитов с целевого аккаунта в базу)
 * поставить на cron `app:tweets-parse` с интервалом от 10 до 30 минут
