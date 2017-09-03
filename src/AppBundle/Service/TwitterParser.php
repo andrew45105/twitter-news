@@ -10,9 +10,9 @@ namespace AppBundle\Service;
 class TwitterParser
 {
     /**
-     * @var array
+     * @var \TwitterAPIExchange
      */
-    private $settings;
+    private $twitterApi;
 
     /**
      * @var array
@@ -43,12 +43,12 @@ class TwitterParser
         string $targetAccount,
         int $tweetsMaxCount)
     {
-        $this->settings = [
+        $this->twitterApi = new \TwitterAPIExchange([
             'oauth_access_token' => $credentials['access_token'],
             'oauth_access_token_secret' => $credentials['access_token_secret'],
             'consumer_key' => $credentials['consumer_key'],
             'consumer_secret' => $credentials['consumer_secret'],
-        ];
+        ]);
         $this->apiUrls = $apiUrls;
         $this->targetAccount = $targetAccount;
         $this->tweetsMaxCount = $tweetsMaxCount;
@@ -73,9 +73,7 @@ class TwitterParser
 
         $requestMethod = 'GET';
 
-        $twitter = new \TwitterAPIExchange($this->settings);
-
-        $tweets = $twitter
+        $tweets = $this->twitterApi
             ->setGetfield($getField)
             ->buildOauth($url, $requestMethod)
             ->performRequest();

@@ -19,9 +19,9 @@ class CommonUtils
     {
         $dates = [];
 
-        for ($i = 0; $i < count($tweets); $i++) {
-            $dayName = $this->getDayName($tweets[$i]->getPublishedAt());
-            $dates[$dayName][] = $tweets[$i];
+        foreach ($tweets as $tweet) {
+            $dayName = $this->getDayName($tweet->getPublishedAt());
+            $dates[$dayName][] = $tweet;
         }
 
         return $dates;
